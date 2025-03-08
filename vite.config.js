@@ -4,8 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),
+  plugins: [
+    react(),
     tailwindcss(),
   ],
-  base: '/residencia_resort/',
+  base: process.env.VERCEL ? '/' : '/residencia_resort/', // Auto-detect Vercel
 })
