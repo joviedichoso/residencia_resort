@@ -23,6 +23,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Create .nojekyll file
+        run: touch ./dist/.nojekyll
+
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
         with:
@@ -42,6 +45,9 @@ jobs:
           name: production-files
           path: ./dist
 
+      - name: Create .nojekyll file (in case it wasn't preserved)
+        run: touch ./dist/.nojekyll
+        
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

@@ -8,9 +8,12 @@ import Booking from './pages/Booking'
 import Contact from './pages/Contact'
 import './index.css'
 
+// Get the base path from your Vite config
+const basePath = '/residencia_resort'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Router>
+    <Router basename={basePath}>
       <Routes>
         {/* Home route */}
         <Route path="/" element={<Home />} />
