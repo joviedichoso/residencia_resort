@@ -399,13 +399,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Signup */}
-      <section className="py-16 bg-blue-600 text-white min-h-screen flex items-center justify-center">
+       {/* Newsletter Signup */}
+       <section className="py-16 bg-gray-700 text-gray-100 min-h-screen flex items-center justify-center">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6" data-aos="fade-up">
             Stay Updated
           </h2>
-          <p className="text-lg text-blue-100 mb-8" data-aos="fade-up" data-aos-delay="100">
+          <p className="text-lg text-gray-300 mb-8" data-aos="fade-up" data-aos-delay="100">
             Join our newsletter for exclusive deals and Santa Magdalena travel tips.
           </p>
           <form 
@@ -419,11 +419,11 @@ export default function Home() {
               placeholder="Your email address"
               aria-label="Email address"
               required
-              className="px-4 py-3 rounded-lg text-gray-800 w-full sm:w-auto sm:flex-1 max-w-md transition-all duration-500 ease-in-out border border-white/20 focus:border-white/40 bg-white/90 focus:bg-white"
+              className="px-4 py-3 rounded-lg text-gray-800 w-full sm:w-auto sm:flex-1 max-w-md transition-all duration-500 ease-in-out border border-gray-500 focus:border-gray-400 bg-gray-100 focus:bg-white"
             />
             <button 
               type="submit"
-              className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-all duration-500 ease-in-out transform hover:scale-105"
+              className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-all duration-500 ease-in-out transform hover:scale-105"
             >
               Subscribe
             </button>
