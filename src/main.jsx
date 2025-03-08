@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Accommodations from './pages/Accommodations'
 import Amenities from './pages/Amenities'
@@ -8,12 +8,9 @@ import Booking from './pages/Booking'
 import Contact from './pages/Contact'
 import './index.css'
 
-// Get the base path from your Vite config
-const basePath = '/residencia_resort'
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Router basename={basePath}>
+    <Router>
       <Routes>
         {/* Home route */}
         <Route path="/" element={<Home />} />
