@@ -2,12 +2,12 @@ import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import Hero from '../assets/images/hero.webp'; 
+import Hero from '../assets/images/hero.webp';
 import { FaBed, FaUtensils, FaSwimmingPool, FaConciergeBell, FaWifi, FaShower } from 'react-icons/fa';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-// Updated static data for Recidencia del Hamor Beach Front in Santa Magdalena
+// Static data for Recidencia del Hamor Beach Front in Santa Magdalena
 const FEATURES = [
   {
     icon: FaBed,
@@ -93,7 +93,6 @@ const HERO_MESSAGES = [
   }
 ];
 
-// Weather emoji map (unchanged)
 const WEATHER_EMOJI_MAP = {
   'Clear': '☀️',
   'Clouds': '☁️',
@@ -105,7 +104,7 @@ const WEATHER_EMOJI_MAP = {
   'default': '🌤️'
 };
 
-// Custom hook for weather (unchanged)
+// Custom hook for weather
 function useWeather() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
@@ -124,10 +123,7 @@ function useWeather() {
             const response = await fetch(
               `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
             );
-            if (!response.ok) {
-              throw new Error("Failed to fetch weather data");
-            }
-
+            if (!response.ok) throw new Error("Failed to fetch weather data");
             const data = await response.json();
             if (isMounted && data.main) {
               setWeather({
@@ -136,30 +132,22 @@ function useWeather() {
               });
             }
           } catch (err) {
-            if (isMounted) {
-              setError(err.message);
-              console.error("Weather fetch error:", err);
-            }
+            if (isMounted) setError(err.message);
           } finally {
-            if (isMounted) {
-              setLoading(false);
-            }
+            if (isMounted) setLoading(false);
           }
         },
         (geoError) => {
           if (isMounted) {
             setError("Location access denied");
             setLoading(false);
-            console.error("Geolocation error:", geoError);
           }
         }
       );
     };
 
     fetchWeatherData();
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
 
   const getWeatherEmoji = useCallback((condition) => {
@@ -169,7 +157,7 @@ function useWeather() {
   return { weather, loading, error, getWeatherEmoji };
 }
 
-// FeatureCard and TestimonialCard components (unchanged)
+// FeatureCard component
 const FeatureCard = ({ feature, animationDirection }) => {
   const { icon: Icon, title, description, delay } = feature;
   return (
@@ -185,6 +173,7 @@ const FeatureCard = ({ feature, animationDirection }) => {
   );
 };
 
+// TestimonialCard component
 const TestimonialCard = ({ testimonial, animationDirection }) => {
   const { quote, author, location, rating, delay } = testimonial;
   const stars = useMemo(() => {
@@ -213,8 +202,9 @@ export default function Home() {
   const [displayedTestimonials, setDisplayedTestimonials] = useState(TESTIMONIALS.slice(0, 3));
   const [showMoreFeatures, setShowMoreFeatures] = useState(false);
   const [heroText, setHeroText] = useState(HERO_MESSAGES[0]);
-  const { weather, getWeatherEmoji } = useWeather();
+  const { weather, loading: weatherLoading, getWeatherEmoji } = useWeather();
 
+  // Hero message rotation
   useEffect(() => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * HERO_MESSAGES.length);
@@ -223,28 +213,27 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // AOS initialization
   useEffect(() => {
-    AOS.init({ 
-      duration: 1200, 
-      once: true, 
+    AOS.init({
+      duration: 1200,
+      once: true,
       easing: 'ease-in-out',
-      disable: window.innerWidth < 768 ? 'mobile' : false 
+      disable: window.innerWidth < 768 ? 'mobile' : false,
     });
     return () => AOS.refresh();
   }, []);
 
+  // Toggle features
   const toggleFeatures = useCallback(() => {
-    setActiveFeatures(prev => showMoreFeatures ? FEATURES.slice(0, 3) : FEATURES);
+    setActiveFeatures(prev => (showMoreFeatures ? FEATURES.slice(0, 3) : FEATURES));
     setShowMoreFeatures(prev => !prev);
   }, [showMoreFeatures]);
 
+  // Testimonial rotation
   useEffect(() => {
     const interval = setInterval(() => {
-      const shuffled = [...TESTIMONIALS];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
+      const shuffled = [...TESTIMONIALS].sort(() => Math.random() - 0.5);
       setDisplayedTestimonials(shuffled.slice(0, 3));
     }, 10000);
     return () => clearInterval(interval);
@@ -253,6 +242,9 @@ export default function Home() {
   const getAnimationDirection = (index) => {
     return index % 3 === 0 ? "fade-right" : index % 3 === 1 ? "fade-up" : "fade-left";
   };
+
+  // Consistent primary button styling
+  const primaryButtonClass = "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent";
 
   return (
     <div className="font-sans">
@@ -263,20 +255,21 @@ export default function Home() {
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4 overflow-hidden"
         style={{
           backgroundImage: `url(${Hero})`,
-          backgroundAttachment: 'fixed',
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
+        aria-label="Hero section with beach view and booking information"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30"></div>
-        {weather && (
-          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-2 text-white">
-            <span className="text-xl">{getWeatherEmoji(weather.condition)}</span>
+        {weather && !weatherLoading && (
+          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-2 text-white sm:top-6 sm:right-6">
+            <span className="text-xl" aria-hidden="true">{getWeatherEmoji(weather.condition)}</span>
             <span className="text-lg">{weather.temp.toFixed(1)}°C</span>
-            <span className="text-sm">{weather.condition}</span>
+            <span className="text-sm hidden sm:inline">{weather.condition}</span>
           </div>
         )}
-        <div className="relative z-10 text-center p-6 md:p-12">
+        <div className="relative z-10 text-center p-6 md:p-12 max-w-4xl mx-auto">
           <h1
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 drop-shadow-xl transition-all duration-1000 ease-in-out"
             data-aos="fade-down"
@@ -292,12 +285,18 @@ export default function Home() {
           </p>
           <Link
             to="/booking"
-            className="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg hover:from-blue-700 hover:to-blue-800"
+            className={primaryButtonClass}
             data-aos="zoom-in"
             data-aos-delay="400"
+            aria-label="Book your stay now"
           >
             Book Now
           </Link>
+        </div>
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white z-10">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </section>
 
@@ -309,18 +308,19 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {activeFeatures.map((feature, index) => (
-              <FeatureCard 
-                key={feature.title} 
-                feature={feature} 
-                animationDirection={getAnimationDirection(index)} 
+              <FeatureCard
+                key={feature.title}
+                feature={feature}
+                animationDirection={getAnimationDirection(index)}
               />
             ))}
           </div>
           <div className="text-center mt-12">
             <button
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg hover:from-blue-700 hover:to-blue-800"
+              className={primaryButtonClass}
               onClick={toggleFeatures}
               data-aos="zoom-in"
+              aria-label={showMoreFeatures ? "Show fewer features" : "View more features"}
             >
               {showMoreFeatures ? "Show Less" : "View More Features"}
             </button>
@@ -336,10 +336,10 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayedTestimonials.map((testimonial, index) => (
-              <TestimonialCard 
-                key={`${testimonial.author}-${index}`} 
-                testimonial={testimonial} 
-                animationDirection={getAnimationDirection(index)} 
+              <TestimonialCard
+                key={`${testimonial.author}-${index}`}
+                testimonial={testimonial}
+                animationDirection={getAnimationDirection(index)}
               />
             ))}
           </div>
@@ -367,8 +367,9 @@ export default function Home() {
                 <p className="text-gray-600 mb-4">Stay 2 nights and get 10% off your total booking.</p>
                 <p className="text-lg font-bold text-blue-600 mb-4">From ₱1,168 per night</p>
                 <Link
-                  to="/offers/beach-getaway"
-                  className="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-500 ease-in-out hover:shadow-lg transform hover:scale-105 hover:from-blue-700 hover:to-blue-800"
+                  to="/beach-getaway"
+                  className={primaryButtonClass}
+                  aria-label="View details for Beach Getaway Deal"
                 >
                   View Details
                 </Link>
@@ -388,8 +389,9 @@ export default function Home() {
                 <p className="text-gray-600 mb-4">Book 5 nights and enjoy a free breakfast daily.</p>
                 <p className="text-lg font-bold text-blue-600 mb-4">From ₱1,298 per night</p>
                 <Link
-                  to="/offers/extended-stay"
-                  className="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-500 ease-in-out hover:shadow-lg transform hover:scale-105 hover:from-blue-700 hover:to-blue-800"
+                  to="/extended-stay"
+                  className={primaryButtonClass}
+                  aria-label="View details for Extended Stay Special"
                 >
                   View Details
                 </Link>
@@ -399,8 +401,8 @@ export default function Home() {
         </div>
       </section>
 
-       {/* Newsletter Signup */}
-       <section className="py-16 bg-gray-700 text-gray-100 min-h-screen flex items-center justify-center">
+      {/* Newsletter Signup */}
+      <section className="py-16 bg-gray-700 text-gray-100 min-h-screen flex items-center justify-center">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6" data-aos="fade-up">
             Stay Updated
@@ -408,7 +410,7 @@ export default function Home() {
           <p className="text-lg text-gray-300 mb-8" data-aos="fade-up" data-aos-delay="100">
             Join our newsletter for exclusive deals and Santa Magdalena travel tips.
           </p>
-          <form 
+          <form
             className="flex flex-col sm:flex-row gap-4 justify-center"
             data-aos="fade-up"
             data-aos-delay="200"
@@ -419,11 +421,12 @@ export default function Home() {
               placeholder="Your email address"
               aria-label="Email address"
               required
-              className="px-4 py-3 rounded-lg text-gray-800 w-full sm:w-auto sm:flex-1 max-w-md transition-all duration-500 ease-in-out border border-gray-500 focus:border-gray-400 bg-gray-100 focus:bg-white"
+              className="px-4 py-3 rounded-lg text-gray-800 w-full sm:w-auto sm:flex-1 max-w-md transition-all duration-500 ease-in-out border border-gray-500 focus:border-gray-400 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
-            <button 
+            <button
               type="submit"
-              className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-all duration-500 ease-in-out transform hover:scale-105"
+              className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-gray-700"
+              aria-label="Subscribe to newsletter"
             >
               Subscribe
             </button>
