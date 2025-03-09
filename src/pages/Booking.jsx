@@ -19,17 +19,16 @@ export default function Booking() {
 
       {/* Hero Section */}
       <section
-        className="relative min-h-[100vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        className="relative min-h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${BookingHero})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed', // Parallax effect
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30"></div>
         <div className="relative z-10 text-center p-6 md:p-12">
           <h1
-            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-xl"
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-2xl"
             data-aos="fade-down"
           >
             Book Your Stay
@@ -64,7 +63,7 @@ export default function Booking() {
           </div>
 
           <div
-            className="bg-white rounded-xl shadow-lg p-6 md:p-8 transition-all duration-500 ease-in-out"
+            className="bg-white rounded-xl shadow-lg p-6 md:p-8 transition-all duration-500 ease-in-out hover:shadow-2xl"
             data-aos="fade-up"
             data-aos-delay="200"
           >
@@ -84,7 +83,7 @@ export default function Booking() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div
-              className="p-6"
+              className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
               data-aos="fade-right"
               data-aos-delay="100"
             >
@@ -92,7 +91,7 @@ export default function Booking() {
               <p className="text-gray-600">Choose your preferred dates with ease and flexibility.</p>
             </div>
             <div
-              className="p-6"
+              className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
               data-aos="fade-up"
               data-aos-delay="200"
             >
@@ -100,7 +99,7 @@ export default function Booking() {
               <p className="text-gray-600">Safe and encrypted transactions for your peace of mind.</p>
             </div>
             <div
-              className="p-6"
+              className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
               data-aos="fade-left"
               data-aos-delay="300"
             >
@@ -114,7 +113,7 @@ export default function Booking() {
             <p className="text-gray-600 mb-4">Need assistance? We’re here to help!</p>
             <Link
               to="/contact"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg"
             >
               Contact Us
             </Link>
