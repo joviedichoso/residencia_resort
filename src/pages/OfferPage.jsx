@@ -80,14 +80,14 @@ export default function OfferPage() {
 
   if (!offer) return null; // Prevent rendering until redirect kicks in
 
-  const primaryButtonClass = "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent";
+  const primaryButtonClass = "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent";
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-50 flex flex-col items-center justify-center py-16">
+    <div className="min-h-screen bg-gradient-to-r from-blue-100 to-indigo-100 flex flex-col items-center justify-center py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Header */}
         <h1
-          className="text-4xl sm:text-5xl font-bold text-gray-800 mb-8"
+          className="text-5xl sm:text-6xl font-bold text-gray-900 mb-8"
           data-aos="fade-up"
         >
           {offer.title}
@@ -95,23 +95,23 @@ export default function OfferPage() {
 
         {/* Offer Details */}
         <div
-          className="bg-white rounded-xl shadow-lg p-8 mb-8"
+          className="bg-white rounded-2xl shadow-2xl p-8 mb-8 transform transition-all duration-500 hover:scale-105 hover:shadow-3xl"
           data-aos="fade-up"
           data-aos-delay="100"
         >
           <div className={`${offer.badge.bgColor} ${offer.badge.textColor} text-xs font-medium px-2.5 py-0.5 rounded-full w-fit mx-auto mb-4`}>
             {offer.badge.text}
             {countdown && offer.badge.text === "Limited Time Offer" && (
-              <span className="ml-2">({countdown})</span>
+              <span className="ml-2 font-bold">({countdown})</span>
             )}
           </div>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-4">
             {offer.subtitle}
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-700 mb-6 text-lg leading-relaxed">
             {offer.description}
           </p>
-          <p className="text-lg font-bold text-blue-600 mb-6">
+          <p className="text-2xl font-bold text-blue-600 mb-6">
             {offer.price}
           </p>
           <Link
@@ -126,7 +126,7 @@ export default function OfferPage() {
         {/* Back to Home */}
         <Link
           to="/"
-          className="text-blue-600 hover:text-blue-800 underline transition-colors duration-300"
+          className="text-blue-600 hover:text-blue-800 underline transition-colors duration-300 text-lg"
           data-aos="fade-up"
           data-aos-delay="200"
           aria-label="Return to home page"
