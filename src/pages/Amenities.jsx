@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AmenityCard from '../components/AmenityCard';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Beach from '../assets/images/beach.webp';
@@ -10,7 +11,6 @@ import Lounge from '../assets/images/lounge.jpg';
 import WaterActivities from '../assets/images/water-activities.webp';
 import Support from '../assets/images/support.jfif';
 import AmenitiesHero from '../assets/images/amenities-hero.webp';
-
 
 // Updated amenity data for Recidencia del Hamor Beach Front
 const amenities = [
@@ -70,7 +70,7 @@ export default function Amenities() {
       <section
         className="relative min-h-[100vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${AmenitiesHero})`, // Add a hero image for amenities
+          backgroundImage: `url(${AmenitiesHero})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -126,12 +126,12 @@ export default function Amenities() {
 
           {/* Call to Action */}
           <div className="text-center mt-12" data-aos="zoom-in" data-aos-delay="300">
-            <button
+            <Link
+              to="/contact"
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg"
-              onClick={() => window.location.href = '/contact'}
             >
               Get in Touch
-            </button>
+            </Link>
           </div>
         </div>
       </section>

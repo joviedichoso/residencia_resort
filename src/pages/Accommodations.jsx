@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import RoomCard from '../components/RoomCard';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Added this import
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Room1 from '../assets/images/room1.jpg';
@@ -69,7 +70,7 @@ export default function Accommodations() {
       <section
         className="relative min-h-[100vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${AccommodationsHero})`,// Add a hero image for accommodations
+          backgroundImage: `url(${AccommodationsHero})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -125,12 +126,12 @@ export default function Accommodations() {
 
           {/* Call to Action */}
           <div className="text-center mt-12" data-aos="zoom-in" data-aos-delay="300">
-            <button
+            <Link
+              to="/booking"
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg"
-              onClick={() => window.location.href = '/booking'}
             >
               Book Your Room Now
-            </button>
+            </Link>
           </div>
         </div>
       </section>
