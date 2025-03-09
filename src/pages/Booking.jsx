@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BookingForm from '../components/BookingForm';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BookingHero from '../assets/images/booking-hero.webp';
@@ -20,7 +21,7 @@ export default function Booking() {
       <section
         className="relative min-h-[100vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${BookingHero})`, // Add a hero image for booking
+          backgroundImage: `url(${BookingHero})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -111,12 +112,12 @@ export default function Booking() {
           {/* Support CTA */}
           <div className="mt-12" data-aos="zoom-in" data-aos-delay="400">
             <p className="text-gray-600 mb-4">Need assistance? We’re here to help!</p>
-            <button
+            <Link
+              to="/contact"
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg"
-              onClick={() => window.location.href = '/contact'}
             >
               Contact Us
-            </button>
+            </Link>
           </div>
         </div>
       </section>
