@@ -3,105 +3,36 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Hero from '../assets/images/hero.webp';
+import beachShowcaseVideo from '../assets/videos/beach-showcase.mp4';
 import { FaBed, FaUtensils, FaSwimmingPool, FaConciergeBell, FaWifi, FaShower } from 'react-icons/fa';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 // Static data for Recidencia del Hamor Beach Front in Santa Magdalena
 const FEATURES = [
-  {
-    icon: FaBed,
-    title: "Comfortable Beachfront Rooms",
-    description: "Rest easy with sea views and cozy accommodations.",
-    delay: 100
-  },
-  {
-    icon: FaUtensils,
-    title: "Local Dining",
-    description: "Enjoy fresh, home-cooked meals by the shore.",
-    delay: 200
-  },
-  {
-    icon: FaSwimmingPool,
-    title: "Beach Access",
-    description: "Step right onto the sandy shores of Santa Magdalena.",
-    delay: 300
-  },
-  {
-    icon: FaShower,
-    title: "Clean Bathrooms",
-    description: "Freshen up with well-maintained facilities.",
-    delay: 400
-  },
-  {
-    icon: FaConciergeBell,
-    title: "Friendly Staff",
-    description: "Warm hospitality to make your stay memorable.",
-    delay: 500
-  },
-  {
-    icon: FaWifi,
-    title: "Free WiFi",
-    description: "Stay connected with reliable internet.",
-    delay: 600
-  }
+  { icon: FaBed, title: "Comfortable Beachfront Rooms", description: "Rest easy with sea views and cozy accommodations.", delay: 100 },
+  { icon: FaUtensils, title: "Local Dining", description: "Enjoy fresh, home-cooked meals by the shore.", delay: 200 },
+  { icon: FaSwimmingPool, title: "Beach Access", description: "Step right onto the sandy shores of Santa Magdalena.", delay: 300 },
+  { icon: FaShower, title: "Clean Bathrooms", description: "Freshen up with well-maintained facilities.", delay: 400 },
+  { icon: FaConciergeBell, title: "Friendly Staff", description: "Warm hospitality to make your stay memorable.", delay: 500 },
+  { icon: FaWifi, title: "Free WiFi", description: "Stay connected with reliable internet.", delay: 600 }
 ];
 
 const TESTIMONIALS = [
-  {
-    quote: "Clean rooms and super close to the beach! Perfect budget stay.",
-    author: "Anna Reyes",
-    location: "Manila, Philippines",
-    rating: 4,
-    delay: 100
-  },
-  {
-    quote: "The staff were so kind and helpful. Loved the beachfront vibe!",
-    author: "Mark Lim",
-    location: "Cebu, Philippines",
-    rating: 5,
-    delay: 200
-  },
-  {
-    quote: "Simple but cozy. Great value for a beach getaway.",
-    author: "Clara Tan",
-    location: "Davao, Philippines",
-    rating: 4,
-    delay: 300
-  },
-  {
-    quote: "Amazing location right by the sea. Very relaxing!",
-    author: "John Cruz",
-    location: "Quezon City, Philippines",
-    rating: 5,
-    delay: 400
-  }
+  { quote: "Clean rooms and super close to the beach! Perfect budget stay.", author: "Anna Reyes", location: "Manila, Philippines", rating: 4, delay: 100 },
+  { quote: "The staff were so kind and helpful. Loved the beachfront vibe!", author: "Mark Lim", location: "Cebu, Philippines", rating: 5, delay: 200 },
+  { quote: "Simple but cozy. Great value for a beach getaway.", author: "Clara Tan", location: "Davao, Philippines", rating: 4, delay: 300 },
+  { quote: "Amazing location right by the sea. Very relaxing!", author: "John Cruz", location: "Quezon City, Philippines", rating: 5, delay: 400 }
 ];
 
 const HERO_MESSAGES = [
-  {
-    heading: "Welcome to Recidencia del Hamor",
-    subheading: "Your beachfront haven in Santa Magdalena, Sorsogon."
-  },
-  {
-    heading: "Escape to the Shore",
-    subheading: "Affordable comfort by the sea."
-  },
-  {
-    heading: "Santa Magdalena Bliss",
-    subheading: "Where the beach meets relaxation."
-  }
+  { heading: "Welcome to Recidencia del Hamor", subheading: "Your beachfront haven in Santa Magdalena, Sorsogon." },
+  { heading: "Escape to the Shore", subheading: "Affordable comfort by the sea." },
+  { heading: "Santa Magdalena Bliss", subheading: "Where the beach meets relaxation." }
 ];
 
 const WEATHER_EMOJI_MAP = {
-  'Clear': '☀️',
-  'Clouds': '☁️',
-  'Rain': '🌧️',
-  'Thunderstorm': '⛈️',
-  'Snow': '❄️',
-  'Mist': '🌫️',
-  'Fog': '🌫️',
-  'default': '🌤️'
+  'Clear': '☀️', 'Clouds': '☁️', 'Rain': '🌧️', 'Thunderstorm': '⛈️', 'Snow': '❄️', 'Mist': '🌫️', 'Fog': '🌫️', 'default': '🌤️'
 };
 
 // Custom hook for weather
@@ -113,7 +44,6 @@ function useWeather() {
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
-
     const fetchWeatherData = () => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -126,10 +56,7 @@ function useWeather() {
             if (!response.ok) throw new Error("Failed to fetch weather data");
             const data = await response.json();
             if (isMounted && data.main) {
-              setWeather({
-                temp: data.main.temp,
-                condition: data.weather[0].main,
-              });
+              setWeather({ temp: data.main.temp, condition: data.weather[0].main });
             }
           } catch (err) {
             if (isMounted) setError(err.message);
@@ -138,21 +65,15 @@ function useWeather() {
           }
         },
         (geoError) => {
-          if (isMounted) {
-            setError("Location access denied");
-            setLoading(false);
-          }
+          if (isMounted) { setError("Location access denied"); setLoading(false); }
         }
       );
     };
-
     fetchWeatherData();
     return () => { isMounted = false; };
   }, []);
 
-  const getWeatherEmoji = useCallback((condition) => {
-    return WEATHER_EMOJI_MAP[condition] || WEATHER_EMOJI_MAP.default;
-  }, []);
+  const getWeatherEmoji = useCallback((condition) => WEATHER_EMOJI_MAP[condition] || WEATHER_EMOJI_MAP.default, []);
 
   return { weather, loading, error, getWeatherEmoji };
 }
@@ -173,7 +94,7 @@ const FeatureCard = ({ feature, animationDirection }) => {
   );
 };
 
-// TestimonialCard component
+// TestimonialCard component (Updated with cool design)
 const TestimonialCard = ({ testimonial, animationDirection }) => {
   const { quote, author, location, rating, delay } = testimonial;
   const stars = useMemo(() => {
@@ -181,17 +102,44 @@ const TestimonialCard = ({ testimonial, animationDirection }) => {
       <span key={i} className={`text-lg ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>★</span>
     ));
   }, [rating]);
+
   return (
     <div
-      className="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50"
+      className="relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:-translate-y-2 border border-transparent hover:border-gradient group"
       data-aos={animationDirection}
       data-aos-delay={delay}
+      style={{
+        background: "linear-gradient(white, white) padding-box, linear-gradient(145deg, #6EE7B7, #3B82F6) border-box",
+        border: "2px solid transparent",
+      }}
     >
+      {/* Quote Icon */}
+      <svg
+        className="w-8 h-8 text-gray-300 mb-4 transition-all duration-500 group-hover:text-blue-400"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
+      </svg>
+
+      {/* Stars */}
       <div className="flex mb-3">{stars}</div>
-      <p className="text-gray-600 italic mb-4">"{quote}"</p>
-      <div>
-        <p className="text-gray-800 font-semibold">{author}</p>
-        <p className="text-gray-500 text-sm">{location}</p>
+
+      {/* Testimonial Text */}
+      <p className="text-gray-700 text-lg leading-relaxed mb-6 transition-all duration-500 group-hover:text-gray-900">
+        "{quote}"
+      </p>
+
+      {/* Author Info */}
+      <div className="flex items-center">
+        <div className="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center text-blue-600 font-semibold text-lg transition-all duration-500 group-hover:bg-blue-300">
+          {author[0]} {/* First letter of author’s name as avatar */}
+        </div>
+        <div className="ml-4">
+          <p className="text-gray-900 font-semibold transition-all duration-500 group-hover:text-blue-600">{author}</p>
+          <p className="text-gray-500 text-sm">{location}</p>
+        </div>
       </div>
     </div>
   );
@@ -243,7 +191,6 @@ export default function Home() {
     return index % 3 === 0 ? "fade-right" : index % 3 === 1 ? "fade-up" : "fade-left";
   };
 
-  // Consistent primary button styling
   const primaryButtonClass = "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent";
 
   return (
@@ -329,11 +276,29 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-white min-h-screen flex items-center justify-center">
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white min-h-screen flex items-center justify-center">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-12" data-aos="fade-up">
+          <h2
+            className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-8"
+            data-aos="fade-up"
+          >
             Guest Reviews
           </h2>
+          <div
+            className="relative w-full max-w-3xl mx-auto mb-12 rounded-xl overflow-hidden shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <video
+              className="w-full h-auto"
+              autoPlay
+              loop
+              muted
+              playsInline
+              src={beachShowcaseVideo}
+              alt="A showcase of Recidencia del Hamor beachfront experience"
+            />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayedTestimonials.map((testimonial, index) => (
               <TestimonialCard
