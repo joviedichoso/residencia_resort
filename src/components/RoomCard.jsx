@@ -1,15 +1,13 @@
 // components/RoomCard.jsx
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Add this import
 
-export default function RoomCard({ room, onClick }) {
+export default function RoomCard({ room }) {
+  // Define the primary button class based on RoomCard's original button styling
   const primaryButtonClass =
     'block w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-500 ease-in-out hover:shadow-lg';
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-2xl cursor-pointer"
-      onClick={onClick} // Trigger modal on click
-    >
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-2xl">
       <img
         src={room.image}
         alt={room.name}
@@ -36,12 +34,11 @@ export default function RoomCard({ room, onClick }) {
           <p className="text-xl font-bold text-blue-600">₱{room.price}/night</p>
         </div>
         <Link
-          to="/booking"
+          to="/booking" // Navigate to general booking page
           className={primaryButtonClass}
           data-aos="zoom-in"
           data-aos-delay="400"
           aria-label={`Book ${room.name} now`}
-          onClick={(e) => e.stopPropagation()} // Prevent card click from triggering modal
         >
           Book Now
         </Link>
