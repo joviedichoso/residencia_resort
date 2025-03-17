@@ -1,7 +1,15 @@
 // components/RoomCard.jsx
-export default function RoomCard({ room }) {
+import { Link } from 'react-router-dom';
+
+export default function RoomCard({ room, onClick }) {
+  const primaryButtonClass =
+    'block w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-500 ease-in-out hover:shadow-lg';
+
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-2xl">
+    <div
+      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+      onClick={onClick} // Trigger modal on click
+    >
       <img
         src={room.image}
         alt={room.name}
@@ -27,9 +35,16 @@ export default function RoomCard({ room }) {
           </div>
           <p className="text-xl font-bold text-blue-600">₱{room.price}/night</p>
         </div>
-        <button className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-500 ease-in-out hover:shadow-lg">
+        <Link
+          to="/booking"
+          className={primaryButtonClass}
+          data-aos="zoom-in"
+          data-aos-delay="400"
+          aria-label={`Book ${room.name} now`}
+          onClick={(e) => e.stopPropagation()} // Prevent card click from triggering modal
+        >
           Book Now
-        </button>
+        </Link>
       </div>
     </div>
   );
