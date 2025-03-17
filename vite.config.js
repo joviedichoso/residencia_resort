@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: process.env.VERCEL ? '/' : '/residencia_resort/', // Auto-detect Vercel
+  base: process.env.VERCEL ? '/' : '/residencia_resort/', 
 })
