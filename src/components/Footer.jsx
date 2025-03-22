@@ -72,6 +72,7 @@ export default function Footer() {
             <p className="text-gray-300 text-sm">
               Your cozy beachfront getaway in Santa Magdalena, Sorsogon. Relax by the sea.
             </p>
+            <p className="text-gray-300 text-xl">Jovie Dichoso - BSIT 3</p>
           </div>
 
           {/* Navigation Links */}
